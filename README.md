@@ -1,4 +1,6 @@
 # 3c.CREATION FOR FILE TRANSFER USING TCP SOCKETS
+### NAME: LOKESH RAHUL V V
+### REG NO :212222100024
 ## AIM
 To write a python program for creating File Transfer using TCP Sockets Links
 ## ALGORITHM:
@@ -8,7 +10,56 @@ To write a python program for creating File Transfer using TCP Sockets Links
 4. Open the file and then send it to the client in byte format.
 5. In the client side receive the file from server and then write the content into it.
 ## PROGRAM
+### CLIENT:
+```python
+import socket 
+s = socket.socket() 
+host = socket.gethostname() 
+port = 60000 
+s.connect((host, port)) 
+s.send("Hello server!".encode()) 
+with open('received_file', 'wb') as f: 
+    while True: 
+        print('receiving data...') 
+        data = s.recv(1024) 
+        print('data=%s', (data)) 
+        if not data: 
+            break 
+        f.write(data) 
+f.close() 
+print('Successfully get the file') 
+s.close() 
+print('connection closed')
+```
+### SERVER:
+```python
+import socket                    
+port = 60000                    
+s = socket.socket()              
+host = socket.gethostname()      
+s.bind((host, port))
+s.listen(5)                      
+while True: 
+    conn, addr = s.accept()      
+    data = conn.recv(1024) 
+    print('Server received', repr(data)) 
+    filename='mytext.txt' 
+    f = open(filename,'rb') 
+    l = f.read(1024) 
+    while (l): 
+       conn.send(l) 
+       print('Sent ',repr(l)) 
+       l = f.read(1024) 
+    f.close() 
+    print('Done sending') 
+    conn.send('Thank you for connecting'.encode()) 
+    conn.close()
+```
 ## OUPUT
+### server
+![Screenshot 2024-05-14 144634](https://github.com/lokeshrahulv/3c.FILE_TRANSFER_USING_TCP_SOCKETS/assets/118423842/159a1201-3604-48f5-8c5a-ba86a21b9a17)
+### client
+![Screenshot 2024-05-14 144624](https://github.com/lokeshrahulv/3c.FILE_TRANSFER_USING_TCP_SOCKETS/assets/118423842/3af91ca8-bc4b-48bf-8e7d-d104f672eb22)
 ## RESULT
 Thus, the python program for creating File Transfer using TCP Sockets Links was 
 successfully created and executed.
